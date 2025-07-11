@@ -1,20 +1,22 @@
-from .demultiplexer import Demultiplexer
+from typing import List, Tuple
+import selectors
 
 
 class Reactor:
-    def __init__(self, event_handler: IEventHandler, selector: BaseSelector):
-        self._init_selector()
+    def __init__(self, event_handler: IEventHandler):
+        self._init_selector(event_handler: IEventHandler)
 
-    def _init_selector(self):
-        self.selector = selectors.DefaultSelector()
+    def _init_selector(self, event_handler):
+        self.selector  = selectors.DefaultSelector()
         self.selector.register(
-            event_handler.fd,
-            selector.EVENT_READ,
-            event_handler.accept
+            fileobj=event_handler.fd,
+            events=selectors.EVENT_READ,
+            data=event_handler.accept,
         )
 
     def start(self):
         while True:
-            events = self.selector.select()
-            for key, event_mask in events:
+            events: List[Tuple[selectors.SelectorKey, selectors._EventMask]] = self.selector.select()
+            for key, _ in events:
                 key.data(key.fileobj)
+
