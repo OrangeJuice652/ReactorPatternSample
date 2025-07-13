@@ -1,4 +1,5 @@
 from .i_event_handler import IEventHandler
+from .echo_socket import EchoSocket
 import socket
 import os
 
@@ -25,6 +26,5 @@ class SocketEventHandler(IEventHandler):
     @property
     def handle(self, file_descriptor):
         connect, address = file_descriptor.accept()
-        connect.setblocking(False)
-        # reactorに登録
+        return EchoSocket(connect, address)
 
