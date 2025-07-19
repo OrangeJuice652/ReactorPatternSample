@@ -1,19 +1,19 @@
 from .i_event_handler import IEventHandler
 from .echo_socket import EchoSocket
-import socket
+from socket import socket as Socket
 import os
 
 
-class SocketEventHandler(IEventHandler):
+class ListnerSocket(IEventHandler):
     def __init__(self) -> None:
         self._init_socket()
 
     def _init_socket(self):
-        self._socket = socket.socket()
+        self._socket = Socket()
         self._socket.bind(
             (
                 os.getenv('SOCKET_HOST'),
-                os.getenv('SOCKET_PORT')
+                os.getenv('SOCKET_PORT'),
             )
         )
         self._socket.setblocking(False)
@@ -24,7 +24,11 @@ class SocketEventHandler(IEventHandler):
         return self._socket
 
     @property
-    def handle(self, file_descriptor):
-        connect, address = file_descriptor.accept()
-        return EchoSocket(connect, address)
+    def handle(self, *args):
+        if len(args) > 0 and isinstance(
+            file_descriptor:=args[0],
+            Socket
+        ):
+            socket, address = file_descriptor.accept()
+            return EchoSocket(socket, address)
 

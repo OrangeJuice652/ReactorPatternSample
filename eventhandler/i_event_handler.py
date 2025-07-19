@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 
+class IEventResult:
+    pass
+    
+
 class IEventHandler(ABC):
     @property
     @abstractmethod
@@ -10,6 +14,6 @@ class IEventHandler(ABC):
 
     @property
     @abstractmethod
-    def handle(self) -> Any:
+    def handle(self, *args) -> Any:
         pass
 

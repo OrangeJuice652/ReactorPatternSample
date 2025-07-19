@@ -4,8 +4,9 @@ from typing import Any
 
 
 class EchoSocket(IEventHandler):
-    def __init__(self, socket: socket):
+    def __init__(self, socket: socket, address):
         self._socket = socket
+        self._address = address
         self._socket.setblocking(False)
 
     @property
@@ -13,6 +14,12 @@ class EchoSocket(IEventHandler):
         return self._socket
 
     @property
-    def handle(self) -> Any:
-        pass
+    def handle(self, *_) -> Any:
+        data = self._socket.recv(1000)  # Should be ready
+        if data:
+            print('echoing', repr(data), 'to', self._socket)
+            self._socket.send(data)  # Hope it won't block
+        else:
+            print('closing', self._socket)
+            self._socket.close()
 
