@@ -8,6 +8,9 @@ class ListnerSocket(IEventHandler):
     def __init__(self) -> None:
         self._init_socket()
 
+    def __del__(self):
+        self._socket.close()
+
     def _init_socket(self):
         self._socket = Socket()
         self._socket.bind(

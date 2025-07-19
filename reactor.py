@@ -24,6 +24,11 @@ class Reactor:
             data=event_handler.handle,
         )
 
+    def unregist_event_handler(self, event_handler: IEventHandler):
+        self.selector.unregister(
+            fileobj=event_handler.file_descriptor,
+        )
+
     def event_loop(self):
         while True:
             events: List[Tuple[selectors.SelectorKey, selectors._EventMask]] = self.selector.select()
