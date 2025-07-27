@@ -17,7 +17,6 @@ class EchoSocket(IEventHandler):
     def file_descriptor(self) -> Any:
         return self._socket
 
-    @property
     def handle(self, *_) -> Any:
         data = self._socket.recv(1000)  # Should be ready
         if data:

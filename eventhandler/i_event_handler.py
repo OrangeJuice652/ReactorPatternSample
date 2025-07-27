@@ -12,7 +12,6 @@ class IEventHandler(ABC):
     def file_descriptor(self) -> Any:
         pass
 
-    @property
     @abstractmethod
     def handle(self, *args) -> Any:
         pass

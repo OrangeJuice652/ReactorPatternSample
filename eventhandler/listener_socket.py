@@ -16,7 +16,7 @@ class ListnerSocket(IEventHandler):
         self._socket.bind(
             (
                 os.getenv('SOCKET_HOST'),
-                os.getenv('SOCKET_PORT'),
+                int(os.getenv('SOCKET_PORT')),
             )
         )
         self._socket.setblocking(False)
@@ -26,7 +26,6 @@ class ListnerSocket(IEventHandler):
     def file_descriptor(self):
         return self._socket
 
-    @property
     def handle(self, *args):
         if len(args) > 0 and isinstance(
             file_descriptor:=args[0],

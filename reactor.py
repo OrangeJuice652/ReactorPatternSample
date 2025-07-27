@@ -21,7 +21,7 @@ class Reactor:
         self.selector.register(
             fileobj=event_handler.file_descriptor,
             events=selectors.EVENT_READ,
-            data=event_handler.handle,
+            data=event_handler,
         )
 
     def unregist_event_handler(self, event_handler: IEventHandler):
